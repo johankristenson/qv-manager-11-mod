@@ -1,0 +1,48 @@
+2014-10-10
+Checked in to new Git repo.
+2014-10-09
+changed 65536 to 2147483647 to avoid error when using -l CAL (johan kristenson)
+changed hardcoded value of delete after days from 30 to 3
+2011-11-01
+----------
+-Changed PowerShell script example for reading from Active Directory to be more flexible and straight forward.
+
+2011-10-28
+----------
+-Added '--list docs' and '--list calinfo' parameters to get document and license information from QVS.
+-The binary download now contains a simple QlikView application to demonstrate some of the data that can be read.
+-Introduced exit codes if something went wrong, to begin with it only checks the server address.
+
+2011-10-25
+----------
+-Changed default server address and added verification to see if it has been changed.
+
+2011-10-24
+----------
+-Added status messages if there was nothing to be done on a specific document or server.
+-Improved DMS adding even more (optimized for speed).
+
+2011-10-14
+----------
+-Adding of DMS users used to remove all existing users first. If this is desired execute with --remove flag first.
+-Adding of DMS users now checks if a username exists before adding it.
+-Changed --document parameter to use separators (;,|) to specify multiple documents (see examples).
+
+2011-10-03
+----------
+-Added PowerShell script example for reading usernames from an XML file.
+
+2011-09-28
+----------
+-Added possibility to add CALs and Document CALs.
+
+2011-09-27
+----------
+-Added PowerShell script examples for retrieving users form Active Directory and SQL servers.
+-Changed target framework of binary build to NET 3.5 Client Profile (Any CPU).
+
+2011-09-24
+----------
+-Introduced --prefix parameter for all usernames and CAL's.
+-Removed --input and --user parameters, using console redirection or pipes to read data instead (see examples).
+-Added possibility to remove specified DMS users and inactive CAL's (inactive for > 30 days).
