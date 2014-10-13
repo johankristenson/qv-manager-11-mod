@@ -54,6 +54,7 @@ namespace qv_user_manager
             var prefix = "";
             var version = false;
             var help = false;
+            var days = 30;
 
             try
             {
@@ -61,6 +62,7 @@ namespace qv_user_manager
                     { "l|list=", "List CALs, users or documents [{CAL|DMS|DOCS}]", v => list = v.ToLower() },
                     { "a|add=", "Add users or assign CALs [{CAL|DMS}]", v => add = v.ToLower() },
                     { "r|remove=", "Remove specified users or inactive CALs [{CAL|DMS}]", v => remove = v.ToLower() },
+                    { "D|days=","Days of inactivity for CAL users. if combined with r CAL removes those who have been inactive for more than the stated amount of days.", v => days = Convert.ToInt16(v) },
                     { "d|document=", "QlikView document(s) to perform actions on", v => docs = v.ToLower() },
                     { "p|prefix=", "Use specified prefix for all users and CALs", v => prefix = v },
                     { "V|version", "Show version information", v => version = v != null },
@@ -83,13 +85,12 @@ namespace qv_user_manager
 
                 if (version)
                 {
-                    Console.WriteLine("qv-user-manager 20111028\n");
+                    Console.WriteLine("Forked version of qv-user-manager (20111028) from 20141013\n");
                     Console.WriteLine("This program comes with ABSOLUTELY NO WARRANTY.");
                     Console.WriteLine("This is free software, and you are welcome to redistribute it");
-                    Console.WriteLine("under certain conditions.\n");
-                    Console.WriteLine("Code: git clone git://github.com/braathen/qv-user-manager.git");
+                    Console.WriteLine("under certain conditions. Find the original version at\n");
                     Console.WriteLine("Home: <https://github.com/braathen/qv-user-manager>");
-                    Console.WriteLine("Bugs: <https://github.com/braathen/qv-user-manager/issues>");
+                    Console.WriteLine("This fork: <https://github.com/johankristenson/qv-manager-11-mod>");
                     return;
                 }
             }
@@ -130,7 +131,8 @@ namespace qv_user_manager
                     DocumentMetadataService.Remove(documents, users);
                     break;
                 case "cal":
-                    ClientAccessLicenses.Remove();
+                    Console.WriteLine("Removing CAls that have not been used for {0} days", days);
+                    ClientAccessLicenses.Remove(days);
                     break;
             }
 

@@ -198,13 +198,10 @@ namespace qv_user_manager
         public static void Remove(int days)
         {
             // Number of inactive days
-            if (days >= 0)
+            if (days > 0)
             {
                 days = -days;
-                Console.WriteLine(String.Format("Will remove CALS that have not been used for {0} days.", days));
-                return;
-            }
-
+            } else if (days == 0) return;
 
             try
             {
