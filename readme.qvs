@@ -1,0 +1,30 @@
+/*
+Use this script in a qv app and schedule it in qemc to remove cals not used for the last 21 days 
+@Author Johan Kristenson
+*/
+
+let today = today(0);
+set filename = "logs\cals_$(today).csv";
+set QvUserManager = "UserManager\qv-user-manager.exe";
+
+
+EXECUTE cmd.exe /C "$(QvUserManager) --list cal > $(filename)"; 
+let size = filesize(filename);
+
+if(size>0) then
+	trace "loading previously assigned cals into qlikview:";
+	Directory;
+	LOAD filename() as file,
+		UserName, 
+	   	LastUsed, 
+	   	QuarantinedUntil,
+	   	Document,
+	   	Server
+	FROM	"$(filename)" (txt, codepage is 1252, embedded labels, delimiter is ';', msq);
+	
+	trace "unassigning unused cals on server";
+	EXECUTE cmd.exe /C "$(QvUserManager) --days=21 -r=CAL > logs\removed_$(today).txt"; 
+	trace "wrote used cals and removed cals to files $(filename) and removed_$(today).txt";
+ELSE 
+	trace "no cals assigned. nothing to be done.";
+end if
